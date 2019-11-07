@@ -14,7 +14,7 @@ function createButtons (){
         
     }
 }
-// display gif
+// get the gif from API
 function displayCharGif(){
     var charGif=$(this).attr("data-name");
 
@@ -29,7 +29,10 @@ function displayCharGif(){
         for (var i = 0; i < results.length; i++) {
             if(results[i].rating !== "r" && results[i].rating !== "pg-13"){
             
+            // creates a div for the rating and the gif
             var gifDiv = $('<div>');
+            gifDiv.addClass("gifDiv");
+            
         
             var rating = results[i].rating;
 
@@ -40,6 +43,10 @@ function displayCharGif(){
             charImage.addClass("gif");
             
             charImage.attr("src", results[i].images.fixed_height.url);
+            charImage.attr("data-still", results[i].images.fixed_height_still.url);
+            charImage.attr("data-animate", results[i].images.fixed_height.url);
+            charImage.attr("data-state", "animate");
+            console.log(charImage);
             gifDiv.append(p);
             gifDiv.append(charImage)
             $("#char-view").prepend(gifDiv);
@@ -58,8 +65,10 @@ $("#add-char").on("click", function(event){
     topics.push(char);
 
     createButtons();
+    $("#char-view").empty();
 });
 
+//on click function to pause/start gif
 
 $('#char-view').on('click','.gif',  function(){
     var state = $(this).attr("data-state");
